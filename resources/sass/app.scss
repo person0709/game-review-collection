@@ -1,1 +1,34 @@
-//
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+%score-shared {
+    border-radius: 1rem;
+    width: 7rem;
+    height: 7rem;
+    color: white;
+    font-size: 4rem;
+    text-align: center;
+    padding: auto;
+    margin: auto;
+}
+
+.score-bad{
+    @extend %score-shared;
+    background-color: red;
+}
+
+.score-mediocre{
+    @extend %score-shared;
+    background-color: orange;
+}
+
+.score-good{
+    @extend %score-shared;
+    background-color: green;
+}

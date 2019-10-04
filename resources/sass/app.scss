@@ -7,6 +7,9 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+// Fontawesome
+@import "~font-awesome/scss/font-awesome.scss";
+
 %score-shared {
     border-radius: 1rem;
     width: 7rem;
@@ -32,3 +35,49 @@
     @extend %score-shared;
     background-color: green;
 }
+
+#metascore{
+    vertical-align: middle;
+}
+
+/* Ratings widget */
+.rate {
+    display: inline-block;
+    border: 0;
+    color: palegoldenrod;
+}
+/* Hide radio */
+.rate > input {
+    display: none;
+}
+/* Order correctly by floating highest to the right */
+.rate > label {
+    float: right;
+}
+/* The star of the show */
+.rate > label:before {
+    display: inline-block;
+    font-size: 3.5rem;
+    padding: .5rem .3rem;
+    margin: 0;
+    cursor: pointer;
+    font-family: 'FontAwesome';
+    content: "\f005"; /* full star */
+    font-weight: 900;
+}
+
+/* Half star trick */
+.rate .half:before {
+    content: "\f089"; /* half star no outline */
+    position: absolute;
+    font-weight: 900;
+    padding-right: 0;
+}
+/* Click + hover color */
+input:checked ~ label, /* color current and previous stars on checked */
+label:hover, label:hover ~ label { color: gold;  } /* color previous stars on hover */
+
+/* Hover highlights */
+input:checked + label:hover, input:checked ~ label:hover, /* highlight current and previous stars */
+input:checked ~ label:hover ~ label, /* highlight previous selected stars for new rating */
+label:hover ~ input:checked ~ label /* highlight previous selected stars */ { color: rgb(238, 202, 0);  }

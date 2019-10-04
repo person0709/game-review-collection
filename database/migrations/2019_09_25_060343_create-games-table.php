@@ -14,7 +14,6 @@ class CreateGamesTable extends Migration
     public function up()
     {
         Schema::create('games', function (Blueprint $table) {
-            $table->integerIncrements('id');
             $table->string('name');
             $table->json('genres');
             $table->json('platforms');
@@ -23,7 +22,6 @@ class CreateGamesTable extends Migration
             $table->string('image');
             $table->tinyInteger('user_score')->nullable();
             $table->text('user_review')->nullable();
-            $table->timestamps();
         });
     }
 

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\ResponseInterface;
 
-class GamesController extends Controller
+class SearchController extends Controller
 {
     public function index()
     {
@@ -55,10 +55,6 @@ class GamesController extends Controller
 
             case 'vita':
                 $modPlat = 'playstation-vita';
-                break;
-
-            default:
-                dump($modPlat);
                 break;
         }
         $client = new \GuzzleHttp\Client();

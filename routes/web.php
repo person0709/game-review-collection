@@ -15,9 +15,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/search', 'GamesController@index');
+Route::get('/search', 'SearchController@index');
 
-Route::get('/search/{title}/{platform}', 'GamesController@show');
+Route::get('/search/{title}/{platform}', 'SearchController@show');
+
+Route::resource('/user/games', 'PlayedGamesController');
 
 Route::any('/', function () {
     return redirect()->route('home');

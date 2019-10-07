@@ -21,11 +21,29 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
+     * Show the application's login form.
      *
-     * @var string
+     * @return \Illuminate\Http\Response
      */
-    protected $redirectTo = '/home';
+    public function showLoginForm()
+    {
+        // Save previous url on session
+        session(['redirect' => request()->header('referer')]);
+
+        return view('auth.login');
+    }
+
+    /**
+     * Where to redirect users after login.
+     */
+    protected function redirectTo()
+    {
+        // Load previous url from session and remove it afterwards
+        $redirectURL = session()->get('redirect');
+        session()->remove('redirect');
+
+        return url($redirectURL);
+    }
 
     /**
      * Create a new controller instance.

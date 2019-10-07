@@ -6,11 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Wishlist extends Model
 {
-    public function user(){
+    protected $primaryKey = 'user_id';
+    public $incrementing = false;
+
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function games(){
-        return $this->hasMany(Game::class);
-    }
+    protected $fillable = [
+        'user_id', 'game_id', 'game_slug', 'game_name',
+    ];
 }

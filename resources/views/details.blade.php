@@ -4,56 +4,77 @@
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="row">
 
                 {{-- Game image --}}
                 <div class="col-sm-auto align-self-center">
-                    <img class="img-fluid" src="{{$details['image']}}" alt="#">
+                    <img class="img-thumbnail" style="width:10rem;" src="{{$details['background_image']}}" alt="{{$details['background_image_additional']}}">
                 </div>
 
                 {{-- Title & platform & wishlist button --}}
-                <div class="col align-self-center">
-                    <h1>{{$details['title']}}</h1>
+                <div class="col-lg align-self-center">
                     <div class="row">
+                        <div class="col">
+                            <h1>{{$details['name']}}</h1>
+                        </div>
+                        <div class="col-sm-auto">
+                            @guest
+                                <a class="btn btn-secondary" href="{{route('login')}}">Login to add to wishlist</a>
+                            @else
+                                @php
+                                    $is_added = Auth::user()->wishlist()->where('game_id',$details['id'])->exists();
+                                @endphp
+                                <form method="POST" action="/users/{{ Auth::id() }}/wishlist">
+                                    @csrf
+                                    <input type="hidden" name="game_id" value="{{ $details['id'] }}">
+                                    <input type="hidden" name="game_slug" value="{{ $details['slug'] }}">
+
+                                    @if ($is_added)
+                                    @method('DELETE')
+                                    <button class="btn btn-success" type="submit">Added to wishlist</button>
+                                    @else
+                                    <button class="btn btn-primary" type="submit">Add to wishlist</button>
+                                    @endif
+                                </form>
+                            @endguest
+                        </div>
+                    </div>
+                    {{-- <div class="row">
                         <div class="col align-self-end">
                             <h3 class="text-muted mb-0">{{$platform}}</h3>
                         </div>
-                        <div class="col text-right">
-                            @if (Auth::user()->wishlist()->where('game_name',$details['title']))
-                            <button class="btn btn-primary" type="button" method="POST"
-                            action="/wishlist/{{ Auth::user()->id }}">Add to wishlist</button>
-                            @else
-                            <button class="btn btn-success" type="button" method="POST"
-                            action="/wishlist/{{ Auth::user()->id }}">Added to wishlist</button>
-                            @endif
-
-                        </div>
-                    </div>
+                    </div> --}}
                 </div>
 
                 {{-- Game details --}}
-                <div class="col m-auto">
+                <div class="col-md-auto">
                     <div class="px-3 text-right">
-                        <strong>Relase date: </strong>{{$details['releaseDate']}}
+                        <strong>Relase date: </strong>{{$details['released']}}
                     </div>
                     <div class="px-3 text-right">
-                        <strong>Genres: </strong>{{implode(', ', $details['genre'])}}
+                        <strong>Genres: </strong>
+                        @foreach ($details['genres'] as $item)
+                            {{ $item['name'], }}
+                        @endforeach
                     </div>
                     <div class="px-3 text-right">
-                        <strong>Developer: </strong>{{$details['developer']}}
+                        <strong>Developers: </strong>
+                        @foreach ($details['developers'] as $item)
+                            {{ $item['name'], }}
+                        @endforeach
                     </div>
                     <div class="px-3 text-right">
-                        <strong>Publisher: </strong>{{implode(', ', $details['publisher'])}}
+                        <strong>Publisher: </strong>
+                        @foreach ($details['publishers'] as $item)
+                            {{ $item['name'], }}
+                        @endforeach
                     </div>
+                    @if ($details['esrb_rating'])
                     <div class="px-3 text-right">
-                        <strong>Rating: </strong>{{$details['rating']}}
-                    </div>
-                    @if ($details['alsoAvailableOn'])
-                    <div class="px-3 text-right">
-                        <strong>Also available on: </strong>{{implode(', ', $details['alsoAvailableOn'])}}
-                    </div>
+                        <strong>ESRB rating: </strong>{{$details['esrb_rating']['name']}}
                     @endif
+                    </div>
                 </div>
             </div>
 
@@ -61,21 +82,21 @@
             <div class="row p-3 mt-2 border rounded-lg">
                 <div class="col">
                     <h3>Summary</h3>
-                    <p class="lead">{{$details['description']}}</p>
+                    <p class="lead">{{$details['description_raw']}}</p>
                 </div>
                 <div class="col-auto align-self-center">
                     <div class="row">
-                        @if ($details['score'] < 35)
+                        @if ($details['metacritic'] < 35)
                             <div class="score-bad">
-                                <span id="metascore">{{$details['score']}}</span>
+                                <span id="metascore">{{$details['metacritic']}}</span>
                             </div>
-                        @elseif ($details['score'] < 75)
+                        @elseif ($details['metacritic'] < 75)
                             <div class="score-mediocre float-right">
-                                <span id="metascore">{{$details['score']}}</span>
+                                <span id="metascore">{{$details['metacritic']}}</span>
                             </div>
                         @else
                             <div class="score-good">
-                                <span id="metascore">{{$details['score']}}</span>
+                                <span id="metascore">{{$details['metacritic']}}</span>
                             </div>
                         @endif
                     </div>

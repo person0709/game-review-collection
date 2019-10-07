@@ -38,6 +38,16 @@ class User extends Authenticatable
     ];
 
     public function wishlist(){
-        return $this->hasone(Wishlist::class);
+        return $this->hasMany(Wishlist::class);
+    }
+
+    public function addWishlist($game){
+        $this->wishlist()->create([
+            'user_id' => $this->id,
+            'game_id' => $game['game_id'],
+            'game_slug' => $game['game_slug'],
+        ]);
+
+        // $this->wishlist()->create(compact($game));
     }
 }

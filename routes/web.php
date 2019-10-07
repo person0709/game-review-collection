@@ -17,9 +17,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/search', 'SearchController@index');
 
-Route::get('/search/{title}/{platform}', 'SearchController@show');
+Route::get('/search/{slug}', 'SearchController@show');
 
-Route::resource('/user/games', 'PlayedGamesController');
+Route::post('/users/{user}/wishlist', 'WishlistController@store');
+
+Route::delete('/users/{user}/wishlist', 'WishlistController@destroy');
 
 Route::any('/', function () {
     return redirect()->route('home');

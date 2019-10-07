@@ -10,9 +10,9 @@
             @foreach ($games as $item)
             <div class="card mb-1">
                 <div class="card-body pb-3 pt-3">
-                    <a href="/search/{{$item['title']}}/{{$item['platform']}}" class="stretched-link">
-                        <h5 class="card-title">{{$item['title']}}</h5>
-                        <p class="card-text">{{$item['platform']}}</p>
+                    <a href="/search/{{$item['slug']}}" class="stretched-link">
+                        <h5 class="card-title">{{$item['name']}}</h5>
+                        {{-- <p class="card-text">{{$item['platforms']['platform']['name']}}</p> --}}
                     </a>
                 </div>
             </div>

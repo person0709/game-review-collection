@@ -1,7 +1,8 @@
 <?php
+
 interface IGameAPIServices
 {
-    public function searchGames(String $keyword, String $pageSize);
+    public function searchGames(string $keyword, string $pageSize);
 
-    public function getDetails(String $slug);
+    public function getDetails(string $slug);
 }

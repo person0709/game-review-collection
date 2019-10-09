@@ -2,11 +2,7 @@
 
 namespace App\Services;
 
-use GuzzleHttp\Exception\RequestException;
 use IGameAPIServices;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Psr\Http\Message\ResponseInterface;
 
 class GameAPIService implements IGameAPIServices
 {

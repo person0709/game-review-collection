@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -45,7 +44,7 @@ class User extends Authenticatable
     public function addWishlist($game)
     {
         return !empty($this->wishlists()->create([
-            'game_id' => $game['game_id'],
+            'game_id'   => $game['game_id'],
             'game_slug' => $game['game_slug'],
             'game_name' => $game['game_name'],
         ]));

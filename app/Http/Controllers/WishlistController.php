@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\User;
-use App\Wishlist;
+use Illuminate\Http\Request;
 
 class WishlistController extends Controller
 {
@@ -30,13 +29,12 @@ class WishlistController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
      */
     public function store(User $user)
     {
         $attributes = request()->validate(
             [
-            'game_id' => 'required',
+            'game_id'   => 'required',
             'game_name' => 'required',
             'game_slug' => 'required',
             ]
@@ -56,7 +54,8 @@ class WishlistController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -67,7 +66,8 @@ class WishlistController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -78,8 +78,9 @@ class WishlistController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)

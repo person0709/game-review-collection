@@ -37,17 +37,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function wishlist(){
+    public function wishlists()
+    {
         return $this->hasMany(Wishlist::class);
     }
 
-    public function addWishlist($game){
-        $this->wishlist()->create([
-            'user_id' => $this->id,
+    public function addWishlist($game)
+    {
+        return !empty($this->wishlists()->create([
             'game_id' => $game['game_id'],
             'game_slug' => $game['game_slug'],
-        ]);
-
-        // $this->wishlist()->create(compact($game));
+            'game_name' => $game['game_name'],
+        ]));
+        // return $this->wishlist()->create(compact($game));
     }
 }

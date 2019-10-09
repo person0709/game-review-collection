@@ -8,7 +8,7 @@
 @import '~bootstrap/scss/bootstrap';
 
 // Fontawesome
-@import "~font-awesome/scss/font-awesome.scss";
+@import url(https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
 
 %score-shared {
     border-radius: 1rem;
@@ -64,6 +64,13 @@
     font-family: 'FontAwesome';
     content: "\f005"; /* full star */
     font-weight: 900;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+/* Zero stars rating */
+.rate > label:last-child:before {
+    content: "\f006 "; /* empty star outline */
 }
 
 /* Half star trick */

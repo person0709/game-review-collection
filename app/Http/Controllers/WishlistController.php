@@ -13,9 +13,9 @@ class WishlistController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
-        //
+        return view('wishlist')->with('user', $user);
     }
 
     /**
@@ -34,13 +34,22 @@ class WishlistController extends Controller
      */
     public function store(User $user)
     {
-        $attributes = request()->validate([
+        $attributes = request()->validate(
+            [
             'game_id' => 'required',
+            'game_name' => 'required',
             'game_slug' => 'required',
             ]
         );
 
-        $user->addWishlist($attributes);
+        $result = $user->addWishlist($attributes);
+
+        if ($result) {
+            request()->session()->flash('message', 'Success!');
+        } else {
+            request()->session()->flash('status', 'Failed!');
+        }
+
         return back();
     }
 
@@ -85,7 +94,14 @@ class WishlistController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->wishlist()->where('game_id', request('game_id'))->delete();
+        $result = $user->wishlists()->where('game_id', request('game_id'))->delete();
+
+        if ($result) {
+            request()->session()->flash('message', 'Success!');
+        } else {
+            request()->session()->flash('status', 'Failed!');
+        }
+
         return back();
     }
 }

@@ -9,10 +9,19 @@ use Psr\Http\Message\ResponseInterface;
 
 class SearchController extends Controller
 {
+    /**
+     * @var \GuzzleHttp\Client
+     */
+    protected $client;
+
+    public function __construct(\GuzzleHttp\Client $client)
+    {
+        $this->client = $client;
+    }
     public function index()
     {
-        $client = new \GuzzleHttp\Client();
-        $response = $client->get('https://api.rawg.io/api/games', [
+        $result = GameAPIService::searchGame('keyword', 'page');
+        $response = $this->client->get('https://api.rawg.io/api/games', [
             'query' => [
                 'search' => request('keyword'),
                 'page_size' => 10,
@@ -25,8 +34,7 @@ class SearchController extends Controller
 
     public function show($slug)
     {
-        $client = new \GuzzleHttp\Client();
-        $response = $client->get('https://api.rawg.io/api/games/' . $slug);
+        $response = $this->client->get('https://api.rawg.io/api/games/' . $slug);
 
         $json = json_decode($response->getBody(), true);
         return view('details')->with([

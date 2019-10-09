@@ -16,6 +16,8 @@ class CreateWishlistsTable extends Migration
         Schema::create('wishlists', function (Blueprint $table) {
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('game_id');
+            $table->primary(['user_id','game_id']);
+            $table->string('game_name');
             $table->string('game_slug');
             $table->timestamps();
         });

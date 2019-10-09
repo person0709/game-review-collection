@@ -19,6 +19,8 @@ Route::get('/search', 'SearchController@index');
 
 Route::get('/search/{slug}', 'SearchController@show');
 
+Route::get('/users/{user}/wishlist', 'WishlistController@index');
+
 Route::post('/users/{user}/wishlist', 'WishlistController@store');
 
 Route::delete('/users/{user}/wishlist', 'WishlistController@destroy');

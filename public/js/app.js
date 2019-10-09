@@ -36914,23 +36914,32 @@ module.exports = function(module) {
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 $(document).ready(function () {
-  $("input[name='rating']").change(function (event) {
-    var rating = event.currentTarget.value;
-    var verdict = '';
+  $("#rateLabel").hide();
+  $("input[name='rating']").click(function (event) {
+    var flag = 0;
+    $("input[name='rating']").change(function (event) {
+      var rating = event.currentTarget.value;
+      var verdict = '';
 
-    if (rating <= 2) {
-      verdict = 'Horrible';
-    } else if (rating <= 4) {
-      verdict = 'Bad';
-    } else if (rating <= 6) {
-      verdict = 'Okay';
-    } else if (rating <= 8) {
-      verdict = 'Good';
-    } else {
-      verdict = 'Excellent';
-    }
+      if (rating == 0) {
+        verdict = 'Unrated';
+      } else if (rating <= 2) {
+        verdict = 'Terrible';
+      } else if (rating <= 4) {
+        verdict = 'Bad';
+      } else if (rating <= 6) {
+        verdict = 'Okay';
+      } else if (rating <= 8) {
+        verdict = 'Good';
+      } else {
+        verdict = 'Excellent';
+      }
 
-    $("#rateLabel").text(verdict);
+      $("#rateLabel").show("fast");
+      $("#rateLabel").text(verdict);
+      console.log('change');
+    });
+    console.log('click');
   });
 });
 

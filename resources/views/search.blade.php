@@ -12,7 +12,6 @@
                 <div class="card-body pb-3 pt-3">
                     <a href="/search/{{$item['slug']}}" class="stretched-link">
                         <h5 class="card-title">{{$item['name']}}</h5>
-                        {{-- <p class="card-text">{{$item['platforms']['platform']['name']}}</p> --}}
                     </a>
                 </div>
             </div>

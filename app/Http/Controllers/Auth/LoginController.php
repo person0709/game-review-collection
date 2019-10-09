@@ -29,18 +29,19 @@ class LoginController extends Controller
     {
         // Save previous url on session
         session(['redirect' => request()->header('referer')]);
+
         return view('auth.login');
     }
 
     /**
      * Where to redirect users after login.
-     *
      */
     protected function redirectTo()
     {
         // Load previous url from session and remove it afterwards
         $redirectURL = session()->get('redirect');
         session()->remove('redirect');
+
         return url($redirectURL);
     }
 

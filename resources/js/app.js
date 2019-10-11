@@ -26,6 +26,7 @@ $(document).ready(function () {
         $("#rate-label").show("fast");
         $("#review-text").show("fast");
     })
+
 })
 
 function getVerdict(rating) {

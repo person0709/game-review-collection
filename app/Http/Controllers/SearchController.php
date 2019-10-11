@@ -6,8 +6,6 @@ use App\Services\IGameAPIService;
 use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Psr\Http\Message\ResponseInterface;
 
 class SearchController extends Controller
 {

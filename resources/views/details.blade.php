@@ -1,3 +1,10 @@
+{{-- sucess/fail alert --}}
+@if (session()->has('message'))
+<div class="alert alert-primary" role="alert">
+    <strong>{{session()->get('message')}}</strong>
+</div>
+@endif
+
 @extends('layouts.app')
 
 @section('content')
@@ -188,5 +195,7 @@
             </form>
         </div>
     </div>
+</div>
+</div>
 </div>
 @endsection

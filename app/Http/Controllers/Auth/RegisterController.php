@@ -22,6 +22,7 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+
     /**
      * Create a new controller instance.
      *

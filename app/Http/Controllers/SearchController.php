@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Services\IGameAPIService;
-use Illuminate\Support\Facades\Auth;
-use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
 {
@@ -31,7 +30,7 @@ class SearchController extends Controller
 
         return view('details')->with([
             'details' => $json,
-            'review'  => $review
+            'review'  => $review,
             ]);
     }
 }

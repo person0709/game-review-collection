@@ -62,9 +62,9 @@ class User extends Authenticatable
             'game_id'   => $id,
             'game_slug' => $game['game_slug'],
             'game_name' => $game['game_name'],
-            'rating' => $game['rating'],
-            'pros' => $game['pros'],
-            'cons' => $game['cons'],
+            'rating'    => $game['rating'],
+            'pros'      => $game['pros'],
+            'cons'      => $game['cons'],
         ]));
     }
 

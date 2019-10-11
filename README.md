@@ -1,3 +1,3 @@
 # game-review-collection
 
-[![StyleCI](https://github.styleci.io/repos/210535256/shield?branch=wishlist_create)](https://github.styleci.io/repos/210535256)
+[![StyleCI](https://github.styleci.io/repos/210535256/shield?branch=master)](https://github.styleci.io/repos/210535256)

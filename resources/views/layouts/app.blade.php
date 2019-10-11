@@ -65,7 +65,7 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">My games</a>
+                                <a class="dropdown-item" href="/users/{{Auth::id()}}/review">My games</a>
 
                                 <a class="dropdown-item" href="/users/{{Auth::id()}}/wishlist">Wishlist</a>
 

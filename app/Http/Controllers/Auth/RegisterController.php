@@ -22,14 +22,6 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
     /**
      * Create a new controller instance.
      *
@@ -38,6 +30,33 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm()
+    {
+        // Save previous url on session
+        if (!session()->has('redirect')) {
+            session(['redirect' => request()->header('referer')]);
+        }
+
+        return view('auth.register');
+    }
+
+    /**
+     * Where to redirect users after login.
+     */
+    protected function redirectTo()
+    {
+        // Load previous url from session and remove it afterwards
+        $redirectURL = session()->get('redirect');
+        session()->remove('redirect');
+
+        return url($redirectURL);
     }
 
     /**

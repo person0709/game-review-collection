@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 
-class WishlistController extends Controller
+class ReviewController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class WishlistController extends Controller
      */
     public function index(User $user)
     {
-        return view('wishlist')->with('user', $user);
+        return view('review')->with('user', $user);
     }
 
     /**
@@ -29,20 +29,26 @@ class WishlistController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function store(User $user, $id)
+    public function store(User $user, $gameId)
     {
         $attributes = request()->validate(
             [
             'game_name' => 'required',
             'game_slug' => 'required',
+            'rating'    => 'required',
+            'pros'      => 'nullable',
+            'cons'      => 'nullable',
             ]
         );
 
-        $result = $user->addWishlist($id, $attributes);
+        $result = $user->addReview($gameId, $attributes);
 
         if ($result) {
-            request()->session()->flash('message', 'Added to wishlist!');
+            request()->session()->flash('message', 'Review saved!');
         } else {
             request()->session()->flash('status', 'Failed!');
         }
@@ -53,8 +59,7 @@ class WishlistController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -65,8 +70,7 @@ class WishlistController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -77,9 +81,8 @@ class WishlistController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int                      $id
-     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -90,14 +93,15 @@ class WishlistController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user, $id)
     {
-        $result = $user->wishlists()->where('game_id', $id)->delete();
+        $result = $user->reviews()->where('game_id', $id)->delete();
 
         if ($result) {
-            request()->session()->flash('message', 'Removed from wishlist');
+            request()->session()->flash('message', 'Review deleted!');
         } else {
             request()->session()->flash('status', 'Failed!');
         }

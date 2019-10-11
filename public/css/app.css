@@ -10644,6 +10644,8 @@ a.text-dark:focus {
   }
 }
 
+/* Metascore */
+
 .score-good,
 .score-mediocre,
 .score-bad {
@@ -10707,13 +10709,6 @@ a.text-dark:focus {
   font-weight: 900;
   padding-bottom: 0;
   padding-top: 0;
-}
-
-/* Zero stars rating */
-
-.rate > label:last-child:before {
-  content: "\F006";
-  /* empty star outline */
 }
 
 /* Half star trick */

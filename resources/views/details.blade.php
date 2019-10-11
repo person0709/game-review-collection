@@ -1,10 +1,3 @@
-{{-- sucess/fail alert --}}
-@if (session()->has('message'))
-<div class="alert alert-primary" role="alert">
-    <strong>{{session()->get('message')}}</strong>
-</div>
-@endif
-
 @extends('layouts.app')
 
 @section('content')
@@ -28,16 +21,13 @@
                             @guest
                             <a class="btn btn-secondary" href="{{route('login')}}">Login to add to wishlist</a>
                             @else
-                            @php
-                            $is_added = Auth::user()->wishlists()->where('game_id',$details['id'])->exists();
-                            @endphp
-                            <form method="POST" action="/users/{{ Auth::id() }}/wishlist">
+                            <form method="POST" action="/users/{{ Auth::id() }}/wishlist/{{ $details['id'] }}">
                                 @csrf
                                 <input type="hidden" name="game_id" value="{{ $details['id'] }}">
                                 <input type="hidden" name="game_slug" value="{{ $details['slug'] }}">
                                 <input type="hidden" name="game_name" value="{{ $details['name'] }}">
 
-                                @if ($is_added)
+                                @if (Auth::user()->isInWishlist($details['id']))
                                 @method('DELETE')
                                 <button class="btn btn-success" type="submit">Added to wishlist</button>
                                 @else
@@ -80,6 +70,13 @@
                 </div>
             </div>
 
+            {{-- sucess/fail alert --}}
+            @if (session()->has('message'))
+            <div class="alert alert-primary text-center" role="alert">
+                <strong>{{session()->get('message')}}</strong>
+            </div>
+            @endif
+
             {{-- Summary --}}
             <div class="row border rounded-lg w-100 py-3 m-2">
                 <div class="col">
@@ -118,50 +115,78 @@
                     <h3>Your rating</h3>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <fieldset class="rate">
-                    <input type="radio" id="rating10" name="rating" value="10" /><label for="rating10"
-                        title="5 stars"></label>
-                    <input type="radio" id="rating9" name="rating" value="9" /><label class="half" for="rating9"
-                        title="4 1/2 stars"></label>
-                    <input type="radio" id="rating8" name="rating" value="8" /><label for="rating8"
-                        title="4 stars"></label>
-                    <input type="radio" id="rating7" name="rating" value="7" /><label class="half" for="rating7"
-                        title="3 1/2 stars"></label>
-                    <input type="radio" id="rating6" name="rating" value="6" /><label for="rating6"
-                        title="3 stars"></label>
-                    <input type="radio" id="rating5" name="rating" value="5" /><label class="half" for="rating5"
-                        title="2 1/2 stars"></label>
-                    <input type="radio" id="rating4" name="rating" value="4" /><label for="rating4"
-                        title="2 stars"></label>
-                    <input type="radio" id="rating3" name="rating" value="3" /><label class="half" for="rating3"
-                        title="1 1/2 stars"></label>
-                    <input type="radio" id="rating2" name="rating" value="2" /><label for="rating2"
-                        title="1 star"></label>
-                    <input type="radio" id="rating1" name="rating" value="1" /><label class="half" for="rating1"
-                        title="1/2 star"></label>
-                    <input type="radio" id="rating0" name="rating" value="0" /><label for="rating0"
-                        title="No star"></label>
-                </fieldset>
-            </div>
-            <h2 class="font-weight-bold" id=rateLabel></h2>
-            <div class="row">
-                <div class="col">
-                    <form>
-                        <div class="form-group">
-                            <label for="review-pro">What did you like?</label>
-                            <textarea id="review-pro" class="form-control" name="pros" rows="3"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="review-con">What did you dislike?</label>
-                            <textarea id="review-con" class="form-control" name="cons" rows="3"></textarea>
-                        </div>
-                    </form>
+            <form id="user-review-save" action="/users/{{Auth::id()}}/review/{{ $details['id'] }}" method="POST">
+                @csrf
+                <div class="row justify-content-center">
+                    <input type="hidden" name="game_slug" value="{{ $details['slug'] }}">
+                    <input type="hidden" name="game_name" value="{{ $details['name'] }}">
+                    <fieldset class="rate">
+                        @for ($i = 10; $i >= 1; $i--)
+                        @if ($i % 2 == 0)
+                        <input type="radio" id="rating{{$i}}" name="rating" value="{{$i}}" {!! $review ? "disabled" : ""
+                            !!} {!! $review['rating']==$i ? "checked" : "" !!} />
+                        <label for="rating{{$i}}" title="{{$i/2}} stars"></label>
+                        @else
+                        <input type="radio" id="rating{{$i}}" name="rating" value="{{$i}}" {!! $review ? "disabled" : ""
+                            !!} {!! $review['rating']==$i ? "checked" : "" !!} />
+                        <label class="half" for="rating{{$i}}" title="{{$i/2}} stars"></label>
+                        @endif
+                        @endfor
+                    </fieldset>
                 </div>
-            </div>
+                <h2 class="font-weight-bold" id=rate-label></h2>
+                <div class="row">
+                    <div class="col">
+                        <fieldset id="review-text">
+                            <div class="card-deck text-left my-4 mx-3">
+                                <div class="card border-success">
+                                    <div class="card-header h4">The goods</div>
+                                    <div class="card-body">
+                                        @if (!$review)
+                                        <textarea id="review-pro" class="form-control" name="pros" rows="5"
+                                            placeholder="Tell us what you liked!"></textarea>
+                                        @else
+                                        <p class="card-text">{{ $review['pros'] }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="card border-danger">
+                                    <div class="card-header h4">The bads</div>
+                                    <div class="card-body">
+                                        @if (!$review)
+                                        <textarea id="review-con" class="form-control" name="cons" rows="5"
+                                            placeholder="Tell us what you didn't like!"></textarea>
+                                        @else
+                                        <p class="card-text">{{ $review['cons'] }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if (!$review)
+                            {{-- Save button --}}
+                            <a class="btn btn-primary" href="/users/{{ Auth::id() }}/review/{{ $details['id'] }}"
+                                onclick="event.preventDefault(); document.getElementById('user-review-save').submit();">Save</a>
+
+                            @else
+                            {{-- Edit button --}}
+                            <button class="btn btn-primary" type="button">Edit</button>
+
+                            {{-- Delete button --}}
+                            <a class="btn btn-danger" href="/users/{{ Auth::id() }}/review/{{ $details['id'] }}"
+                                onclick="event.preventDefault(); document.getElementById('user-review-delete').submit();">Delete</a>
+
+                            <form id="user-review-delete" action="/users/{{ Auth::id() }}/review/{{$details['id']}}"
+                                method="POST">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                            @endif
+                        </fieldset>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-</div>
-</div>
 </div>
 @endsection

@@ -10,6 +10,7 @@
 // Fontawesome
 @import url(https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
 
+/* Metascore */
 %score-shared {
     border-radius: 1rem;
     width: 7rem;
@@ -40,6 +41,7 @@
     vertical-align: middle;
 }
 
+
 /* Ratings widget */
 .rate {
     display: inline-block;
@@ -68,10 +70,10 @@
     padding-top: 0;
 }
 
-/* Zero stars rating */
-.rate > label:last-child:before {
-    content: "\f006 "; /* empty star outline */
-}
+// /* Zero stars rating */
+// .rate > label:last-child:before {
+//     content: "\f006 "; /* empty star outline */
+// }
 
 /* Half star trick */
 .rate .half:before {
@@ -80,6 +82,7 @@
     font-weight: 900;
     padding-right: 0;
 }
+
 /* Click + hover color */
 input:checked ~ label, /* color current and previous stars on checked */
 label:hover, label:hover ~ label { color: gold;  } /* color previous stars on hover */

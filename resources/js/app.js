@@ -12,7 +12,6 @@ $(document).ready(function () {
 
     var radios = document.getElementsByName('rating');
     radios.forEach(radio => {
-        console.log(radio);
         if (radio.hasAttribute('checked')){
             $("#rate-label").text(getVerdict(radio.value));
             $("#rate-label").show();

@@ -14,7 +14,11 @@ class ReviewController extends Controller
      */
     public function index(User $user)
     {
-        return view('review')->with('user', $user);
+        $reviews = $user->reviews()->get();
+        return view('review')->with([
+            'user' => $user,
+            'reviews' => $reviews,
+            ]);
     }
 
     /**
@@ -54,7 +58,7 @@ class ReviewController extends Controller
             request()->session()->flash('status', 'Failed!');
         }
 
-        return back();
+        return redirect('/search/'.request('game_slug'));
     }
 
     /**

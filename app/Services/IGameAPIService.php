@@ -4,9 +4,7 @@ namespace App\Services;
 
 interface IGameAPIService
 {
-    public function __construct(\GuzzleHttp\Client $client);
+    function searchGames(string $keyword, string $pageSize);
 
-    public function searchGames(string $keyword, string $pageSize);
-
-    public function getDetails(string $slug);
+    function getDetails(string $slug);
 }

@@ -15,13 +15,12 @@
                 <div class="card mb-1">
                     <div class="card-body pb-3 pt-3">
                         <a href="/search/{{$game->game_slug}}">
-                            <h5 class="card-title">{{$game->game_name}} <a href="/users/{{ Auth::id() }}/wishlist" class="btn btn-danger float-right"
-                            onclick="event.preventDefault(); document.getElementById('wishlist-delete').submit();">Delete</a> </h5>
+                            <h5 class="card-title">{{$game->game_name}} <a href="/users/{{ Auth::id() }}/wishlist/{{ $game->game_id}}" class="btn btn-danger float-right"
+                            onclick="event.preventDefault(); document.getElementById('wishlist-delete-{{$game->game_id}}').submit();">Delete</a> </h5>
 
-                            <form id="wishlist-delete" method="POST" action="/users/{{ Auth::id() }}/wishlist">
+                            <form id="wishlist-delete-{{$game->game_id}}" method="POST" action="/users/{{ Auth::id() }}/wishlist/{{ $game->game_id}}">
                                 @csrf
                                 @method('DELETE')
-                                <input type="hidden" name="game_id" value="{{ $game->game_id }}">
                                 <input type="hidden" name="game_slug" value="{{ $game->game_slug }}">
                                 <input type="hidden" name="game_name" value="{{ $game->game_name }}">
                             </form>

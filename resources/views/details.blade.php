@@ -188,7 +188,7 @@
                             </div>
                         </div>
                     </form>
-                    <form id="user-review-delete" action="/users/{{ Auth::id() }}/review/{{$details['id']}}"
+                    <form id="user-review-delete" action="/users/{{ Auth::id() }}/review/{{ $details['id'] }}"
                         method="POST">
                         @csrf
                         @method('DELETE')

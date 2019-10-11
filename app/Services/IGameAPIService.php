@@ -4,7 +4,7 @@ namespace App\Services;
 
 interface IGameAPIService
 {
-    function searchGames(string $keyword, string $pageSize);
+    public function searchGames(string $keyword, string $pageSize);
 
-    function getDetails(string $slug);
+    public function getDetails(string $slug);
 }

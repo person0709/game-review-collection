@@ -15,8 +15,9 @@ class ReviewController extends Controller
     public function index(User $user)
     {
         $reviews = $user->reviews()->get();
+
         return view('review')->with([
-            'user' => $user,
+            'user'    => $user,
             'reviews' => $reviews,
             ]);
     }

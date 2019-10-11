@@ -20,9 +20,9 @@ class GameAPIService implements IGameAPIService
     {
         $response = $this->client->get('https://api.rawg.io/api/games', [
             'query' => [
-                'search' => $keyword,
+                'search'   => $keyword,
                 'pageSize' => $pageSize,
-            ]
+            ],
         ]);
 
         $json = json_decode($response->getBody(), true);
@@ -32,7 +32,7 @@ class GameAPIService implements IGameAPIService
 
     public function getDetails(string $slug)
     {
-        $response = $this->client->get('https://api.rawg.io/api/games/' . $slug);
+        $response = $this->client->get('https://api.rawg.io/api/games/'.$slug);
         $json = json_decode($response->getBody(), true);
 
         return $json;
